@@ -1,0 +1,189 @@
+## Recreate and finalize the enhanced website HTML and save it to a file
+enhanced_website_html = """
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BSM Rescreen & Repairs LLC</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+            color: #333;
+        }
+        header {
+            background-color: #00aaff; /* Light Blue */
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+        nav {
+            background-color: #ffaa00; /* Orange */
+            padding: 10px;
+            text-align: center;
+        }
+        nav a {
+            color: white;
+            text-decoration: none;
+            margin: 0 10px;
+            font-weight: bold;
+        }
+        .hero {
+            background-color: #ffd700; /* Yellow */
+            padding: 50px;
+            text-align: center;
+            color: white;
+        }
+        .section {
+            padding: 20px;
+            background-color: white;
+            text-align: center;
+        }
+        .service {
+            display: inline-block;
+            width: 30%;
+            padding: 20px;
+            margin: 10px;
+            background-color: #f9f9f9;
+            border-radius: 10px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        .service img {
+            width: 100%;
+            height: auto;
+            border-radius: 5px;
+        }
+        .testimonial, .calendar, .contact-form {
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #f9f9f9;
+            border-radius: 10px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            max-width: 600px;
+        }
+        footer {
+            background-color: #00aaff;
+            color: white;
+            text-align: center;
+            padding: 20px;
+        }
+        .social-icons a {
+            color: white;
+            text-decoration: none;
+            margin: 0 10px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>BSM Rescreen & Repairs LLC</h1>
+    </header>
+    <nav>
+        <a href="#services">Services</a>
+        <a href="#testimonials">Testimonials</a>
+        <a href="#calendar">Schedule</a>
+        <a href="#contact">Contact Us</a>
+    </nav>
+    <div class="hero">
+        <h1>Welcome to BSM Rescreen & Repairs</h1>
+        <p>Enhancing your home with quality and care.</p>
+    </div>
+    <div class="section" id="services">
+        <h2>Our Services</h2>
+        <div class="service">
+            <img src="https://via.placeholder.com/400x300" alt="Rescreening">
+            <h3>Rescreening</h3>
+            <p>Professional rescreening for pools, patios, and windows.</p>
+        </div>
+        <div class="service">
+            <img src="https://via.placeholder.com/400x300" alt="Landscaping">
+            <h3>Landscaping</h3>
+            <p>Comprehensive landscaping services from design to maintenance.</p>
+        </div>
+    </div>
+    <div class="section" id="testimonials">
+        <h2>Testimonials</h2>
+        <div class="testimonial">
+            <p>"Fantastic service and attention to detail. Highly recommend BSM Rescreen & Repairs for your home needs!"</p>
+        </div>
+    </div>
+    <div class="section" id="calendar">
+        <h2>Book Your Service</h2>
+        <iframe src="https://calendar.google.com/calendar/embed?src=example%40gmail.com"></iframe>
+    </div>
+    <div class="section" id="contact">
+        <h2>Contact Us</h2>
+        <form class="contact-form">
+            <label for="name">Name:</label>
+            <input type="text" id="name" name="name">
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email">
+            <label for="message">Message:</label>
+            <textarea id="message" name="message" rows="5"></textarea>
+            <button type="submit">Submit</button>
+        </form>
+    </div>
+    <footer>
+        <div class="social-icons">
+            <a href="#">FB</a>
+            <a href="#">IG</a>
+            <a href="#">TW</a>
+        </div>
+        <p>&copy; 2024 BSM Rescreen & Repairs LLC. All rights reserved.</p>
+    </footer>
+</body>
+</html>
+"""
+
+# Save the enhanced HTML content to a file
+enhanced_website_path = '/mnt/data/BSM_Rescreen_Repairs_LLC_Enhanced_Website.html'
+with open(enhanced_website_path, 'w') as file:
+    file.write(enhanced_website_html)
+
+enhanced_website_path Simple workflow for deploying static content to GitHub Pages
+name: Deploy static content to Pages
+
+on:
+  # Runs on pushes targeting the default branch
+  push:
+    branches: ["main"]
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+# Sets permissions of the GITHUB_TOKEN to allow deployment to GitHub Pages
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# Allow only one concurrent deployment, skipping runs queued between the run in-progress and latest queued.
+# However, do NOT cancel in-progress runs as we want to allow these production deployments to complete.
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
+
+jobs:
+  # Single deploy job since we're just deploying
+  deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Setup Pages
+        uses: actions/configure-pages@v5
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          # Upload entire repository
+          path: '.'
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
